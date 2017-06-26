@@ -6,6 +6,11 @@ package net.sfxworks.tinyauthorizeapi
 	 */
 	public class Core 
 	{
+		private var login:String;
+		private var transactKey:String;
+		
+		private var _charger:Charger;
+		private var _cart:Cart;
 		
 		public function Core() 
 		{
@@ -14,7 +19,20 @@ package net.sfxworks.tinyauthorizeapi
 		
 		public function init(login:String, transactionKey:String):void
 		{
-			
+			login = login;
+			transactKey = transactionKey;
+			_charger = new Charger(login, transactionKey);
+			_cart = new Cart();
+		}
+		
+		public function get charger():Charger 
+		{
+			return _charger;
+		}
+		
+		public function get cart():Cart 
+		{
+			return _cart;
 		}
 		
 	}
