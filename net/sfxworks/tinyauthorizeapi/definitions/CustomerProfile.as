@@ -1,5 +1,6 @@
-package net.sfxworks.tinyauthorizeapi 
+package net.sfxworks.tinyauthorizeapi.definitions 
 {
+	import net.sfxworks.tinyauthorizeapi.definitions.Card;
 	/**
 	 * ...
 	 * @author Samuel Walker

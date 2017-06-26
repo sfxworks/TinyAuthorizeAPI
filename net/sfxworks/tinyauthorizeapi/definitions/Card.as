@@ -1,4 +1,4 @@
-package net.sfxworks.tinyauthorizeapi 
+package net.sfxworks.tinyauthorizeapi.definitions 
 {
 	/**
 	 * ...

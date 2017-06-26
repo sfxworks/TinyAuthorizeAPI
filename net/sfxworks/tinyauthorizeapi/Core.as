@@ -1,5 +1,6 @@
 package net.sfxworks.tinyauthorizeapi 
 {
+	import net.sfxworks.tinyauthorizeapi.definitions.AuthorizeNetMode;
 	/**
 	 * ...
 	 * @author Samuel Walker
@@ -17,11 +18,11 @@ package net.sfxworks.tinyauthorizeapi
 			
 		}
 		
-		public function init(login:String, transactionKey:String):void
+		public function init(login:String, transactionKey:String, mode:String=AuthorizeNetMode.SANDBOX):void
 		{
 			login = login;
 			transactKey = transactionKey;
-			_charger = new Charger(login, transactionKey);
+			_charger = new Charger(login, transactionKey, mode);
 			_cart = new Cart();
 		}
 		
