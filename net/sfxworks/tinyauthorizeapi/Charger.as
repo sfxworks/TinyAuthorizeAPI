@@ -8,6 +8,7 @@ package net.sfxworks.tinyauthorizeapi
 	import flash.net.URLRequestHeader;
 	import flash.net.URLRequestMethod;
 	import net.sfxworks.tinyauthorizeapi.definitions.Card;
+	import net.sfxworks.tinyauthorizeapi.definitions.CustomerProfile;
 	import net.sfxworks.tinyauthorizeapi.events.ChargeEvent;
 	/**
 	 * ...
@@ -44,6 +45,11 @@ package net.sfxworks.tinyauthorizeapi
 			urll.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 			urll.addEventListener(Event.COMPLETE, handleCardChargeComplete);
 			urll.load(rq);
+		}
+		
+		private function handleIOError(e:IOErrorEvent):void 
+		{
+			dispatchEvent(e);
 		}
 		
 		private function handleCardChargeComplete(e:Event):void 

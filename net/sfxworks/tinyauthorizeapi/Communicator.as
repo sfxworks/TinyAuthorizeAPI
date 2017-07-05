@@ -15,7 +15,9 @@ package net.sfxworks.tinyauthorizeapi
 		
 		public function Communicator(login:String, transactKey:String, mode:String) 
 		{
-			
+			log = login;
+			tK = transactKey;
+			endpoint = mode;
 		}
 		
 	}

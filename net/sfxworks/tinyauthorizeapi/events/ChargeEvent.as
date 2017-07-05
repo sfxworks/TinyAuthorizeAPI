@@ -32,10 +32,11 @@ package net.sfxworks.tinyauthorizeapi.events
 			return formatToString("ChargeEvent", "type", "refID", "bubbles", "cancelable", "eventPhase"); 
 		}
 		
-		public function get returnData():Object 
+		public function get refID():String 
 		{
-			return _returnData;
+			return _refID;
 		}
+		
 		
 		
 	}
