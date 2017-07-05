@@ -17,7 +17,7 @@ package test
 			authCore.init("LOGIN", "KEY");
 			authCore.profiler.addEventListener(ProfilerEvent.SUCCESS, handleProfileSuccess);
 			authCore.profiler.addEventListener(ProfilerEvent.ERROR, handleProfilerError);
-			authCore.profiler.createProfile(new Card("4179470003649334", "12/20", "111"), "individual", "autogen");
+			authCore.profiler.createProfile(new Card("carnumber", "cardexp", "ccv"), "individual", "autogen");
 			
 		}
 		
