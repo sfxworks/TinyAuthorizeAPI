@@ -26,7 +26,7 @@ package net.sfxworks.tinyauthorizeapi
 		
 		public function chargeCard(card:Card, total:Number, refId:String=null):void
 		{
-			var sendingObj:Object = new Object();
+			var sendingObj:XML =  <createCustomerProfileRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd" />
 			sendingObj.createTransactionRequest.merchantAuthentication.name = log;
 			sendingObj.createTransactionRequest.merchantAuthentication.transactionKey = tK;
 			
@@ -40,8 +40,9 @@ package net.sfxworks.tinyauthorizeapi
 			var rq:URLRequest = new URLRequest(endpoint);
 			rq.method = URLRequestMethod.POST;
 			rq.requestHeaders.push(new URLRequestHeader("Content-Type", "application/json"));
+			rq.data =  '<?xml version="1.0" encoding="utf-8"?>\n' + sendingObj.toXMLString();
+			
 			var urll:URLLoader = new URLLoader();
-			urll.data = JSON.stringify(sendingObj);
 			urll.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 			urll.addEventListener(Event.COMPLETE, handleCardChargeComplete);
 			urll.load(rq);
