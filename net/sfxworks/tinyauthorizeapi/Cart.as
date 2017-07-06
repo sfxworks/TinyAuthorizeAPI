@@ -34,7 +34,7 @@ package net.sfxworks.tinyauthorizeapi
 			_discount = 0;
 			_total = 0;
 			
-			items = new Vector.<String>();
+			_items = new Vector.<String>();
 			_prices = new Vector.<int>();
 		}
 		
@@ -54,7 +54,7 @@ package net.sfxworks.tinyauthorizeapi
 		public function removeItem(itemName:String):void
 		{
 			var indexToRemove:int = items.indexOf(itemName);
-			items = items.splice(indexToRemove, 1);
+			_items = _items.splice(indexToRemove, 1);
 			_prices = _prices.splice(indexToRemove, 1);
 		}
 		
