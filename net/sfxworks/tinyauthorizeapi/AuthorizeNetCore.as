@@ -19,7 +19,7 @@ package net.sfxworks.tinyauthorizeapi
 			trace("Test");
 		}
 		
-		public function init(login:String, transactionKey:String, mode:String=AuthorizeNetMode.SANDBOX):void
+		public function init(login:String, transactionKey:String, mode:String="https://apitest.authorize.net/xml/v1/request.api"):void
 		{
 			login = login;
 			transactKey = transactionKey;
