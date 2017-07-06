@@ -26,20 +26,20 @@ package net.sfxworks.tinyauthorizeapi
 		
 		public function chargeCard(card:Card, total:Number, refId:String=null):void
 		{
-			var sendingObj:XML =  <createCustomerProfileRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd" />
-			sendingObj.createTransactionRequest.merchantAuthentication.name = log;
-			sendingObj.createTransactionRequest.merchantAuthentication.transactionKey = tK;
+			var sendingObj:XML =  <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd" />
+			sendingObj.merchantAuthentication.name = log;
+			sendingObj.merchantAuthentication.transactionKey = tK;
 			
-			sendingObj.createTransactionRequest.refId = refId;
-			sendingObj.createTransactionRequest.transactionType = "authCaptureTransaction";
-			sendingObj.createTransactionRequest.amount = total.toString();
-			sendingObj.createTransactionRequest.payment.creditCard.cardNumber = card.number;
-			sendingObj.createTransactionRequest.payment.creditCard.expirationDate = card.expiration;
-			sendingObj.createTransactionRequest.payment.creditCard.cardCode = card.ccv;
+			sendingObj.refId = refId;
+			sendingObj.transactionType = "authCaptureTransaction";
+			sendingObj.amount = total.toString();
+			sendingObj.payment.creditCard.cardNumber = card.number;
+			sendingObj.payment.creditCard.expirationDate = card.expiration;
+			sendingObj.payment.creditCard.cardCode = card.ccv;
 			
 			var rq:URLRequest = new URLRequest(endpoint);
 			rq.method = URLRequestMethod.POST;
-			rq.requestHeaders.push(new URLRequestHeader("Content-Type", "application/json"));
+			rq.requestHeaders.push(new URLRequestHeader("Content-Type", "text/xml"));
 			rq.data =  '<?xml version="1.0" encoding="utf-8"?>\n' + sendingObj.toXMLString();
 			
 			var urll:URLLoader = new URLLoader();
@@ -55,11 +55,16 @@ package net.sfxworks.tinyauthorizeapi
 		
 		private function handleCardChargeComplete(e:Event):void 
 		{
-			var refID:String = "";
-			if (e.target.data.refId != null)
-				refID = e.target.data.refId;
+			trace("Response = " + e.target.data);
+			var returnData:XML = new XML(e.target.data);
+			returnData = removeNamespace(returnData.toXMLString());
 			
-			switch(parseInt(e.target.data.transactionResponse.responseCode))
+			
+			var refID:String = "";
+			if (returnData.refId != null)
+				refID = returnData.refId;
+			
+			switch(parseInt(returnData.transactionResponse.responseCode))
 			{
 				case 1:
 					dispatchEvent(new ChargeEvent(ChargeEvent.CHARGE_SUCCESS, refID));
@@ -75,29 +80,42 @@ package net.sfxworks.tinyauthorizeapi
 					break;
 					
 			}
+			
 		}
 		
 		public function chargeProfile(profile:CustomerProfile, total:Number, paymentProfile:int=0, ref:String=null):void
 		{
-			var sendingObj:Object = new Object();
-			sendingObj.createTransactionRequest.merchantAuthentication.name = log;
-			sendingObj.createTransactionRequest.merchantAuthentication.transactionKey = tK;
+			var sendingObj:XML = <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd"/>
+
 			
-			sendingObj.createTransactionRequest.refId = ref;
-			sendingObj.createTransactionRequest.transactionRequest.transactionType = "authCaptureTransaction";
+			sendingObj.merchantAuthentication.name = log;
+			sendingObj.merchantAuthentication.transactionKey = tK;
 			
-			sendingObj.createTransactionRequest.transactionRequest.amount = total;
-			sendingObj.createTransactionRequest.transactionRequest.profile.customerProfileId = profile.customerProfileID;
-			sendingObj.createTransactionRequest.transactionRequest.profile.paymentProfile.paymentProfileId = profile.paymentProfiles[paymentProfile].paymentProfileID;
+			sendingObj.refId = ref;
+			sendingObj.transactionRequest.transactionType = "authCaptureTransaction";
+			
+			sendingObj.transactionRequest.amount = total;
+			sendingObj.transactionRequest.profile.customerProfileId = profile.customerProfileID;
+			sendingObj.transactionRequest.profile.paymentProfile.paymentProfileId = profile.paymentProfiles[paymentProfile].paymentProfileID;
 			
 			var rq:URLRequest = new URLRequest(endpoint);
 			rq.method = URLRequestMethod.POST;
-			rq.requestHeaders.push(new URLRequestHeader("Content-Type", "application/json"));
+			rq.requestHeaders.push(new URLRequestHeader("Content-Type", "text/xml"));
+			rq.data =  '<?xml version="1.0" encoding="utf-8"?>\n' + sendingObj.toXMLString();
+			trace("Rq data = \n" + rq.data);
+			
 			var urll:URLLoader = new URLLoader();
-			urll.data = JSON.stringify(sendingObj);
 			urll.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 			urll.addEventListener(Event.COMPLETE, handleCardChargeComplete);
 			urll.load(rq);
+		}
+		
+		private function removeNamespace(str:String):XML
+		{
+			var nsRegEx:RegExp = new RegExp(" xmlns(?:.*?)?=\".*?\"", "gim");
+			
+			var resultXML:XML = new XML(str.replace(nsRegEx, "")); 
+			return resultXML;
 		}
 		
 	}
