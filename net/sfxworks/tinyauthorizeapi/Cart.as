@@ -11,6 +11,7 @@ package net.sfxworks.tinyauthorizeapi
 		 * An array of item names to corrospond with a price. 
 		 */
 		private var _items:Vector.<String>;
+		//In my case items is always /manu
 		
 		/**@info
 		 * An array of item prices to corrospond with an item name.
@@ -36,6 +37,9 @@ package net.sfxworks.tinyauthorizeapi
 			
 			_items = new Vector.<String>();
 			_prices = new Vector.<int>();
+			_cartItemRef = new Vector.<int>();
+			_quantities = new Vector.<int>();
+			
 		}
 		
 		public function addOrUpdate(itemName:String, price:int):void
@@ -86,9 +90,9 @@ package net.sfxworks.tinyauthorizeapi
 			_subTotal = 0;
 			for each(var itemRef:int in _cartItemRef)
 			{
-				_subTotal += (_prices[itemRef] * _quantities[itemRef]);
+				_subTotal += (_prices[itemRef] * _quantities[cartItemRef.indexOf(itemRef)]);
 			}
-			_tax = _subTotal + (_subTotal * _tax) - (_subTotal * _discount);
+			_total = _subTotal + (_subTotal * _tax) - (_subTotal * _discount);
 		}
 		
 		public function removeFromCard(itemRef:int):void
