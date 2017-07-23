@@ -1,6 +1,5 @@
 package net.sfxworks.tinyauthorizeapi 
 {
-	import com.adobe.tvsdk.mediacore.events.ProfileEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
