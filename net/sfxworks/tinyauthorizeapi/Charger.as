@@ -24,18 +24,18 @@ package net.sfxworks.tinyauthorizeapi
 			
 		}
 		
-		public function chargeCard(card:Card, total:Number, refId:String=null):void
+		public function chargeCard(card:Card, total:Number, refId:String=null):Object
 		{
 			var sendingObj:XML =  <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd" />
 			sendingObj.merchantAuthentication.name = log;
 			sendingObj.merchantAuthentication.transactionKey = tK;
 			
 			sendingObj.refId = refId;
-			sendingObj.transactionType = "authCaptureTransaction";
-			sendingObj.amount = total.toString();
-			sendingObj.payment.creditCard.cardNumber = card.number;
-			sendingObj.payment.creditCard.expirationDate = card.expiration;
-			sendingObj.payment.creditCard.cardCode = card.ccv;
+			sendingObj.transactionRequest.transactionType = "authCaptureTransaction";
+			sendingObj.transactionRequest.amount = total.toString();
+			sendingObj.transactionRequest.payment.creditCard.cardNumber = card.number;
+			sendingObj.transactionRequest.payment.creditCard.expirationDate = card.expiration;
+			sendingObj.transactionRequest.payment.creditCard.cardCode = card.ccv;
 			
 			var rq:URLRequest = new URLRequest(endpoint);
 			rq.method = URLRequestMethod.POST;
@@ -46,6 +46,8 @@ package net.sfxworks.tinyauthorizeapi
 			urll.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 			urll.addEventListener(Event.COMPLETE, handleCardChargeComplete);
 			urll.load(rq);
+			
+			return rq.data;
 		}
 		
 		private function handleIOError(e:IOErrorEvent):void 
@@ -83,7 +85,7 @@ package net.sfxworks.tinyauthorizeapi
 			
 		}
 		
-		public function chargeProfile(profile:CustomerProfile, total:Number, paymentProfile:int=0, ref:String=null):void
+		public function chargeProfile(profile:CustomerProfile, total:Number, paymentProfile:int=0, ref:String=null):Object
 		{
 			var sendingObj:XML = <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd"/>
 
@@ -108,6 +110,7 @@ package net.sfxworks.tinyauthorizeapi
 			urll.addEventListener(IOErrorEvent.IO_ERROR, handleIOError);
 			urll.addEventListener(Event.COMPLETE, handleCardChargeComplete);
 			urll.load(rq);
+			return rq.data;
 		}
 		
 		private function removeNamespace(str:String):XML
