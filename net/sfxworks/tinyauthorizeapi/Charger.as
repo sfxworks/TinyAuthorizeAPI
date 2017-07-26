@@ -69,7 +69,7 @@ package net.sfxworks.tinyauthorizeapi
 			switch(parseInt(returnData.transactionResponse.responseCode))
 			{
 				case 1:
-					dispatchEvent(new ChargeEvent(ChargeEvent.CHARGE_SUCCESS, refID));
+					dispatchEvent(new ChargeEvent(ChargeEvent.CHARGE_SUCCESS, refID, returnData.transactionResponse.transId));
 					break;
 				case 2:
 					dispatchEvent(new ChargeEvent(ChargeEvent.CHARGE_DECLINED, refID));
