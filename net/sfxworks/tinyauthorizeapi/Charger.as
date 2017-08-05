@@ -1,5 +1,6 @@
 package net.sfxworks.tinyauthorizeapi 
 {
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
@@ -61,6 +62,11 @@ package net.sfxworks.tinyauthorizeapi
 			var returnData:XML = new XML(e.target.data);
 			returnData = removeNamespace(returnData.toXMLString());
 			
+			if (String(returnData.messages.resultCode) == "Error")
+			{
+				dispatchEvent(new ChargeEvent(ChargeEvent.CHARGE_ERROR, refID));
+				return;
+			}
 			
 			var refID:String = "";
 			if (returnData.refId != null)
