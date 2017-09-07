@@ -16,7 +16,7 @@ package net.sfxworks.tinyauthorizeapi
 		/**@info
 		 * An array of item prices to corrospond with an item name.
 		 */
-		private var _prices:Vector.<int>;
+		private var _prices:Vector.<Number>;
 		
 		//If values are changed a new total is created.
 		private var _subTotal:Number
@@ -36,13 +36,13 @@ package net.sfxworks.tinyauthorizeapi
 			_total = 0;
 			
 			_items = new Vector.<String>();
-			_prices = new Vector.<int>();
+			_prices = new Vector.<Number>();
 			_cartItemRef = new Vector.<int>();
 			_quantities = new Vector.<int>();
 			
 		}
 		
-		public function addOrUpdate(itemName:String, price:int):void
+		public function addOrUpdate(itemName:String, price:Number):void
 		{
 			if (items.indexOf(itemName) == -1)
 			{
@@ -85,7 +85,7 @@ package net.sfxworks.tinyauthorizeapi
 		}
 		
 		//I was going to include parts of these in their respective getters, but it's cool here for now.
-		private function generateTotals():void
+		public function generateTotals():void
 		{
 			_subTotal = 0;
 			for each(var itemRef:int in _cartItemRef)
@@ -147,7 +147,7 @@ package net.sfxworks.tinyauthorizeapi
 			return _items;
 		}
 		
-		public function get prices():Vector.<int> 
+		public function get prices():Vector.<Number> 
 		{
 			return _prices;
 		}
