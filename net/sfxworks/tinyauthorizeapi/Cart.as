@@ -21,6 +21,8 @@ package net.sfxworks.tinyauthorizeapi
 		//If values are changed a new total is created.
 		private var _subTotal:Number
 		private var _tax:Number;
+		
+		//PERCENTAGE DISCOUNT
 		private var _discount:Number;
 		private var _total:Number;
 		

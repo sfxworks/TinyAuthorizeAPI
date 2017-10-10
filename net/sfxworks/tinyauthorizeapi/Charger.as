@@ -25,7 +25,8 @@ package net.sfxworks.tinyauthorizeapi
 			
 		}
 		
-		public function chargeCard(card:Card, total:Number, refId:String=null):Object
+		public function chargeCard(card:Card, total:Number, refId:String = "", invoiceNumber:String = "", description:String = "", customerEmail:String = "", customerName:String = "", 
+		customerAddress:String = "", customerCity:String = "", customerState:String = "", customerZip:String = "", customerCountry:String = "USA", billFirstName:String="", billLastName:String="",billAddress:String="", billCity:String="",billState:String="",billZip:String=""):Object
 		{
 			var sendingObj:XML =  <createTransactionRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd" />
 			sendingObj.merchantAuthentication.name = log;
@@ -37,6 +38,31 @@ package net.sfxworks.tinyauthorizeapi
 			sendingObj.transactionRequest.payment.creditCard.cardNumber = card.number;
 			sendingObj.transactionRequest.payment.creditCard.expirationDate = card.expiration;
 			sendingObj.transactionRequest.payment.creditCard.cardCode = card.ccv;
+			sendingObj.transactionRequest.order.invoiceNumber = invoiceNumber;
+			sendingObj.transactionRequest.order.description = description;
+			sendingObj.transactionRequest.customer.type = "business";
+			sendingObj.transactionRequest.customer.email = customerEmail;
+			
+			sendingObj.transactionRequest.billTo.firstName = billFirstName;
+			sendingObj.transactionRequest.billTo.lastName = billLastName;
+			sendingObj.transactionRequest.billTo.address = billAddress;
+			sendingObj.transactionRequest.billTo.city = billCity;
+			sendingObj.transactionRequest.billTo.state = billState;
+			sendingObj.transactionRequest.billTo.zip = billZip;
+			sendingObj.transactionRequest.billTo.country = customerCountry;
+			
+			sendingObj.transactionRequest.shipTo.firstName = customerName;
+			sendingObj.transactionRequest.shipTo.address = customerAddress;
+			sendingObj.transactionRequest.shipTo.city = customerCity;
+			sendingObj.transactionRequest.shipTo.state = customerState;
+			sendingObj.transactionRequest.shipTo.zip = customerZip;
+			sendingObj.transactionRequest.shipTo.country = customerCountry;
+			
+			
+			
+			
+			//sendingObj.employeeId = employeeID;
+			
 			
 			var rq:URLRequest = new URLRequest(endpoint);
 			rq.method = URLRequestMethod.POST;
